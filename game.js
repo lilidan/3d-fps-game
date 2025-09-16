@@ -108,30 +108,51 @@ class FPSGame {
     setupWeapon() {
         const weaponGroup = new THREE.Group();
         
-        const barrelGeometry = new THREE.CylinderGeometry(0.02, 0.03, 1.5, 8);
-        const barrelMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
+        const barrelGeometry = new THREE.CylinderGeometry(0.04, 0.05, 2.0, 12);
+        const barrelMaterial = new THREE.MeshLambertMaterial({ color: 0x2c2c2c });
         const barrel = new THREE.Mesh(barrelGeometry, barrelMaterial);
         barrel.rotation.z = Math.PI / 2;
-        barrel.position.set(0.7, 0, -0.75);
+        barrel.position.set(1.0, 0.05, 0);
         
-        const bodyGeometry = new THREE.BoxGeometry(0.3, 0.15, 0.8);
-        const bodyMaterial = new THREE.MeshLambertMaterial({ color: 0x222222 });
-        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-        body.position.set(0.2, -0.1, -0.4);
+        const receiverGeometry = new THREE.BoxGeometry(0.8, 0.25, 0.12);
+        const receiverMaterial = new THREE.MeshLambertMaterial({ color: 0x1a1a1a });
+        const receiver = new THREE.Mesh(receiverGeometry, receiverMaterial);
+        receiver.position.set(0, 0, 0);
         
-        const gripGeometry = new THREE.BoxGeometry(0.08, 0.25, 0.15);
+        const stockGeometry = new THREE.BoxGeometry(0.6, 0.35, 0.08);
+        const stockMaterial = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
+        const stock = new THREE.Mesh(stockGeometry, stockMaterial);
+        stock.position.set(-0.7, 0, 0);
+        
+        const gripGeometry = new THREE.BoxGeometry(0.12, 0.4, 0.08);
         const gripMaterial = new THREE.MeshLambertMaterial({ color: 0x654321 });
         const grip = new THREE.Mesh(gripGeometry, gripMaterial);
-        grip.position.set(0.1, -0.25, -0.2);
+        grip.position.set(-0.2, -0.32, 0);
+        
+        const triggerGuardGeometry = new THREE.TorusGeometry(0.08, 0.02, 8, 16, Math.PI);
+        const triggerGuardMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
+        const triggerGuard = new THREE.Mesh(triggerGuardGeometry, triggerGuardMaterial);
+        triggerGuard.position.set(-0.15, -0.15, 0);
+        triggerGuard.rotation.z = Math.PI;
+        
+        const sightGeometry = new THREE.BoxGeometry(0.02, 0.08, 0.02);
+        const sightMaterial = new THREE.MeshLambertMaterial({ color: 0x444444 });
+        const frontSight = new THREE.Mesh(sightGeometry, sightMaterial);
+        frontSight.position.set(1.8, 0.15, 0);
         
         weaponGroup.add(barrel);
-        weaponGroup.add(body);
+        weaponGroup.add(receiver);
+        weaponGroup.add(stock);
         weaponGroup.add(grip);
+        weaponGroup.add(triggerGuard);
+        weaponGroup.add(frontSight);
         
-        weaponGroup.position.set(0.3, -0.3, -0.5);
-        weaponGroup.rotation.y = -0.2;
+        weaponGroup.position.set(0.6, -0.5, -1.0);
+        weaponGroup.rotation.set(0, -0.1, 0.05);
+        weaponGroup.scale.set(0.8, 0.8, 0.8);
         
         this.weapon = weaponGroup;
+        this.scene.add(this.camera);
         this.camera.add(weaponGroup);
     }
     
