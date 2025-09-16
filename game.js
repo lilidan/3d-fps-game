@@ -239,20 +239,24 @@ class FPSGame {
     
     checkHit(direction) {
         const raycaster = new THREE.Raycaster(this.camera.position, direction);
-        const intersects = raycaster.intersectObjects(this.enemies);
+        const intersects = raycaster.intersectObjects(this.enemies, true);
         
         if (intersects.length > 0) {
-            const enemy = intersects[0].object;
-            enemy.userData.health -= 50;
+            const hitObject = intersects[0].object;
+            const enemy = hitObject.parent && this.enemies.includes(hitObject.parent) ? hitObject.parent : hitObject;
             
-            if (enemy.userData.health <= 0) {
-                this.scene.remove(enemy);
-                this.enemies = this.enemies.filter(e => e !== enemy);
-                this.player.score += 100;
-                this.updateHUD();
+            if (this.enemies.includes(enemy)) {
+                enemy.userData.health -= 50;
                 
-                if (this.enemies.length === 0) {
-                    this.spawnEnemies();
+                if (enemy.userData.health <= 0) {
+                    this.scene.remove(enemy);
+                    this.enemies = this.enemies.filter(e => e !== enemy);
+                    this.player.score += 100;
+                    this.updateHUD();
+                    
+                    if (this.enemies.length === 0) {
+                        this.spawnEnemies();
+                    }
                 }
             }
         }
