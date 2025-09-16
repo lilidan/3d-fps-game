@@ -32,6 +32,7 @@ class FPSGame {
         document.getElementById('gameContainer').appendChild(this.renderer.domElement);
         
         this.setupScene();
+        this.setupWeapon();
         this.setupControls();
         this.setupEventListeners();
         
@@ -102,6 +103,36 @@ class FPSGame {
             obstacle.receiveShadow = true;
             this.scene.add(obstacle);
         }
+    }
+    
+    setupWeapon() {
+        const weaponGroup = new THREE.Group();
+        
+        const barrelGeometry = new THREE.CylinderGeometry(0.02, 0.03, 1.5, 8);
+        const barrelMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
+        const barrel = new THREE.Mesh(barrelGeometry, barrelMaterial);
+        barrel.rotation.z = Math.PI / 2;
+        barrel.position.set(0.7, 0, -0.75);
+        
+        const bodyGeometry = new THREE.BoxGeometry(0.3, 0.15, 0.8);
+        const bodyMaterial = new THREE.MeshLambertMaterial({ color: 0x222222 });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        body.position.set(0.2, -0.1, -0.4);
+        
+        const gripGeometry = new THREE.BoxGeometry(0.08, 0.25, 0.15);
+        const gripMaterial = new THREE.MeshLambertMaterial({ color: 0x654321 });
+        const grip = new THREE.Mesh(gripGeometry, gripMaterial);
+        grip.position.set(0.1, -0.25, -0.2);
+        
+        weaponGroup.add(barrel);
+        weaponGroup.add(body);
+        weaponGroup.add(grip);
+        
+        weaponGroup.position.set(0.3, -0.3, -0.5);
+        weaponGroup.rotation.y = -0.2;
+        
+        this.weapon = weaponGroup;
+        this.camera.add(weaponGroup);
     }
     
     spawnEnemies() {
