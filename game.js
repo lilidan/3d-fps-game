@@ -237,14 +237,16 @@ class FPSGame {
         
         if (direction.length() > 0) {
             direction.normalize();
-            direction.applyQuaternion(this.camera.quaternion);
-            direction.y = 0;
-            direction.normalize();
+            
+            const yawQuaternion = new THREE.Quaternion();
+            yawQuaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.mouse.x);
+            direction.applyQuaternion(yawQuaternion);
             
             this.player.position.add(direction.multiplyScalar(moveSpeed));
         }
         
         this.camera.position.copy(this.player.position);
+        this.camera.rotation.order = 'YXZ';
         this.camera.rotation.set(this.mouse.y, this.mouse.x, 0);
     }
     
