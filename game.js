@@ -150,8 +150,8 @@ class FPSGame {
         document.addEventListener('mousemove', (e) => {
             if (!this.isPointerLocked) return;
             
-            this.mouse.x += e.movementX * 0.002;
-            this.mouse.y += e.movementY * 0.002;
+            this.mouse.x -= e.movementX * 0.002;
+            this.mouse.y -= e.movementY * 0.002;
             this.mouse.y = Math.max(-Math.PI/2, Math.min(Math.PI/2, this.mouse.y));
         });
         
@@ -245,8 +245,7 @@ class FPSGame {
         }
         
         this.camera.position.copy(this.player.position);
-        this.camera.rotation.y = this.mouse.x;
-        this.camera.rotation.x = this.mouse.y;
+        this.camera.rotation.set(this.mouse.y, this.mouse.x, 0);
     }
     
     updateEnemies() {
