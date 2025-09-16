@@ -105,11 +105,8 @@ class FPSGame {
     }
     
     spawnEnemies() {
-        const enemyMaterial = new THREE.MeshLambertMaterial({ color: 0xFF0000 });
-        
         for (let i = 0; i < 5; i++) {
-            const geometry = new THREE.BoxGeometry(1, 2, 1);
-            const enemy = new THREE.Mesh(geometry, enemyMaterial);
+            const enemy = this.createZombie();
             const angle = (i / 5) * Math.PI * 2;
             const distance = 20 + Math.random() * 30;
             
@@ -128,6 +125,51 @@ class FPSGame {
             this.enemies.push(enemy);
             this.scene.add(enemy);
         }
+    }
+    
+    createZombie() {
+        const zombie = new THREE.Group();
+        
+        const headGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
+        const headMaterial = new THREE.MeshLambertMaterial({ color: 0x4A7C59 });
+        const head = new THREE.Mesh(headGeometry, headMaterial);
+        head.position.set(0, 1.7, 0);
+        zombie.add(head);
+        
+        const eyeGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+        const eyeMaterial = new THREE.MeshLambertMaterial({ color: 0xFF0000 });
+        const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+        leftEye.position.set(-0.15, 1.8, 0.25);
+        const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+        rightEye.position.set(0.15, 1.8, 0.25);
+        zombie.add(leftEye);
+        zombie.add(rightEye);
+        
+        const bodyGeometry = new THREE.BoxGeometry(0.8, 1.2, 0.4);
+        const bodyMaterial = new THREE.MeshLambertMaterial({ color: 0x2D4A22 });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        body.position.set(0, 0.6, 0);
+        zombie.add(body);
+        
+        const armGeometry = new THREE.BoxGeometry(0.2, 0.8, 0.2);
+        const armMaterial = new THREE.MeshLambertMaterial({ color: 0x4A7C59 });
+        const leftArm = new THREE.Mesh(armGeometry, armMaterial);
+        leftArm.position.set(-0.6, 0.8, 0);
+        const rightArm = new THREE.Mesh(armGeometry, armMaterial);
+        rightArm.position.set(0.6, 0.8, 0);
+        zombie.add(leftArm);
+        zombie.add(rightArm);
+        
+        const legGeometry = new THREE.BoxGeometry(0.25, 0.8, 0.25);
+        const legMaterial = new THREE.MeshLambertMaterial({ color: 0x1A2E17 });
+        const leftLeg = new THREE.Mesh(legGeometry, legMaterial);
+        leftLeg.position.set(-0.2, -0.4, 0);
+        const rightLeg = new THREE.Mesh(legGeometry, legMaterial);
+        rightLeg.position.set(0.2, -0.4, 0);
+        zombie.add(leftLeg);
+        zombie.add(rightLeg);
+        
+        return zombie;
     }
     
     setupControls() {
